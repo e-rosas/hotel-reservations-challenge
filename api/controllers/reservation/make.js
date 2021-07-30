@@ -69,6 +69,9 @@ module.exports = {
       return err;
     }).fetch();
 
+    await Room.addToCollection(room.id, 'reservations')
+    .members(reservation.id);
+
     reservation.room = await Room.updateOne({ id:room.id })
     .set({
       reserved:true
