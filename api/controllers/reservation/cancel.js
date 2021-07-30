@@ -31,7 +31,6 @@ module.exports = {
   fn: async function (inputs, exits) {
 
     const reservation = await Reservation.findOne({ id: inputs.reservationId }).populate('room');
-    console.log(reservation);
 
     if (!reservation) {
       return exits.notFound({

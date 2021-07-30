@@ -17,10 +17,12 @@ module.exports = {
   },
 
 
-  fn: async function (inputs) {
+  fn: async function () {
+
+    const reservations = Reservation.find().populate('room');
 
     // All done.
-    return;
+    return reservations;
 
   }
 

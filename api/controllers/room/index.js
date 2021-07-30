@@ -17,10 +17,12 @@ module.exports = {
   },
 
 
-  fn: async function (inputs) {
+  fn: async function () {
+
+    const rooms = Room.find();
 
     // All done.
-    return;
+    return rooms;
 
   }
 
