@@ -10,6 +10,7 @@
 
 module.exports.routes = {
   'POST /reservations': { action: 'reservation/make' },
+  'DELETE /reservations/:reservationId': { action: 'reservation/cancel' },
   'POST /rooms': { action: 'room/create' },
 
 };

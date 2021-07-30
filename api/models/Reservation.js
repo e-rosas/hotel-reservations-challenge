@@ -20,12 +20,10 @@ module.exports = {
       type: 'number',
       required: true,
     },
-    cancelled: {
+    completed: {
       type: 'boolean',
       defaultsTo: false,
     },
-
-
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
     //  ╚═╝╩ ╩╚═╝╚═╝═╩╝╚═╝
