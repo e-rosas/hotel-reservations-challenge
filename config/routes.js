@@ -10,5 +10,6 @@
 
 module.exports.routes = {
   'POST /reservations': { action: 'reservation/make' },
+  'POST /rooms': { action: 'room/create' },
 
 };

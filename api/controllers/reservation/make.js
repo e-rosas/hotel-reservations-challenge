@@ -33,29 +33,55 @@ module.exports = {
   exits: {
     success: {
       message: 'Room reserved successfully.',
+      reservation: {}
     },
     notFound: {
-      description: 'No room with the specified ID was found in the database.',
-      responseType: 'notFound'
+      message: 'No room with the specified ID was found in the database.',
+      responseType: 'badRequest'
     },
     notAvailable: {
-      description: 'Room with the specified ID is not available.',
+      message: 'Room with the specified ID is not available.',
       responseType: 'badRequest'
     },
   },
 
 
-  fn: async function (inputs) {
+  fn: async function (inputs, exits) {
 
-    var room = await Room.findOne({ id: inputs.roomId });
+    const room = await Room.findOne({ id: inputs.roomId });
 
-    // If no user was found, respond "notFound" (like calling `res.notFound()`)
-    if (!room) { throw 'notFound'; }
+    // If no room was found, respond "notFound" (like calling `res.notFound()`)
+    if (!room) {
+      return exits.notFound({
+        message: 'No room with the specified ID was found in the database.',
+      });
+    }
+
+    // If room is already reserved
+    if (room.reserved) {
+      return exits.notAvailable({
+        message: 'Room with the specified ID is not available.',
+      });
+    }
+
+    const reservation = await Reservation.create({ name: inputs.name, date: inputs.date })
+    .intercept((err)=>{
+      return err;
+    }).fetch();
+
+    reservation.room = await Room.updateOne({ id:room.id })
+    .set({
+      reserved:true
+    });
+
+
 
     // All done.
-    return {
-      roomNumber: room.number
-    };
+    return exits.success({
+      message: 'Room reserved successfully.',
+      id: reservation.id,
+      reservation: reservation
+    });
 
   }
 
